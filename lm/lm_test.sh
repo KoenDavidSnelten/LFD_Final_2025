@@ -13,7 +13,8 @@ source $HOME/venvs/venv_lfd_final_lm/bin/activate
 
 echo "Job starting"
 
-python3 lm_model.py
+python3 lm_model.py \
+    --load_best_model_at_end
 
 echo "Job ending"
 
