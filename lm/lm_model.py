@@ -208,34 +208,32 @@ def main():
     metrics = trainer.evaluate()
     print_results(metrics)
 
-    # Evaluate on the test set if provided
-    if args.test_file:
-        # Load and process the test dataset
-        X_test, Y_test = read_corpus(args.test_file)
-        y_test_ids = le.transform(Y_test).astype(np.int64)
-        tok_test = tokenizer(
-            X_test, padding=True, truncation=True,
-            max_length=args.max_length,
-        )
-        test_ds = Dataset.from_dict(
-            {**tok_test, 'labels': y_test_ids},
-        ).with_format('torch')
+    # Load and process the test dataset
+    X_test, Y_test = read_corpus(args.test_file)
+    y_test_ids = le.transform(Y_test).astype(np.int64)
+    tok_test = tokenizer(
+        X_test, padding=True, truncation=True,
+        max_length=args.max_length,
+    )
+    test_ds = Dataset.from_dict(
+        {**tok_test, 'labels': y_test_ids},
+    ).with_format('torch')
 
-        # Get predictions
-        test_metrics = trainer.evaluate(eval_dataset=test_ds)
-        print('\nTest set results:')
-        print_results(test_metrics)
+    # Get predictions
+    test_metrics = trainer.evaluate(eval_dataset=test_ds)
+    print('\nTest set results:')
+    print_results(test_metrics)
 
-        # If specified, create and save the confusion matrix image
-        if args.confusion_matrix is not None:
-            # Print confusion matrix for the test file
-            preds_output = trainer.predict(test_ds)
-            preds = np.argmax(preds_output.predictions, axis=-1)
-            cm = confusion_matrix(y_test_ids, preds)
-            print('Confusion Matrix:')
-            print(cm)
-            save_confusion_matrix(cm, le, args.confusion_matrix)
-            print(f'Saving confusion matrix to {args.confusion_matrix}')
+    # If specified, create and save the confusion matrix image
+    if args.confusion_matrix is not None:
+        # Print confusion matrix for the test file
+        preds_output = trainer.predict(test_ds)
+        preds = np.argmax(preds_output.predictions, axis=-1)
+        cm = confusion_matrix(y_test_ids, preds)
+        print('Confusion Matrix:')
+        print(cm)
+        save_confusion_matrix(cm, le, args.confusion_matrix)
+        print(f'Saving confusion matrix to {args.confusion_matrix}')
 
 
 if __name__ == '__main__':
