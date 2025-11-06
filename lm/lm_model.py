@@ -121,7 +121,7 @@ def save_confusion_matrix(cm, le, filename):
     # Save the figure
     plt.savefig(filename)
     plt.close()
-    
+
 
 def prepare_data(args, tokenizer):
     '''Tokenize and build datasets + label encoder'''
@@ -174,7 +174,7 @@ def main():
         learning_rate=args.learning_rate,
         weight_decay=args.weight_decay,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
-        eval_strategy=args.eval_strategy,
+        evaluation_strategy=args.eval_strategy,
 
         save_strategy=args.eval_strategy,
         logging_steps=args.logging_steps,
