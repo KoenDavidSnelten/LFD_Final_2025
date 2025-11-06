@@ -1,6 +1,6 @@
 numpy
 datasets
 matplotlib
-sklearn
+scikit-learn
 transformers
 torch
