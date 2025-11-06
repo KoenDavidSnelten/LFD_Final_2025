@@ -28,9 +28,9 @@ def create_arg_parser():
 
     # Data / model arguments
     p.add_argument('--model_name', default='bert-base-uncased')
-    p.add_argument('--train_file', default='train.txt')
-    p.add_argument('--dev_file', default='dev.txt')
-    p.add_argument('--test_file', default=None)
+    p.add_argument('--train_file', default='../data/raw/train.tsv')
+    p.add_argument('--dev_file', default='../data/raw/dev.tsv')
+    p.add_argument('--test_file', default='../data/raw/test.tsv')
     p.add_argument('--confusion_matrix', default=None)
     p.add_argument('--max_length', type=int, default=100)
 
@@ -67,31 +67,22 @@ def create_arg_parser():
     return p.parse_args()
 
 
-def read_corpus(corpus_file):
-    '''Read in review data set and returns docs and labels'''
-    documents = []
+def read_corpus(file):
+    '''Reads the given corpus file and returns the documents and labels'''
+
+    # Variables to store the documents and labels
+    tweets = []
     labels = []
-    with open(corpus_file, encoding='utf-8') as f:
-        for line in f:
-            tokens = line.strip()
-            documents.append(' '.join(tokens.split()[3:]).strip())
-            labels.append(tokens.split()[0])
-    return documents, labels
 
-
-def save_confusion_matrix(cm, le, filename):
-    """Plot and save confusion matrix with the labels using matplotlib."""
-
-    # Plot confusion matrix
-    plt.figure(figsize=(10, 8))
-    # Get the label names to show in the matrix
-    labels = le.classes_
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
-    disp.plot(cmap='Blues', xticks_rotation='vertical', values_format='d')
-    plt.tight_layout()
-    # Save the figure
-    plt.savefig(filename)
-    plt.close()
+    # Open the file
+    with open(file, encoding='utf-8') as in_file:
+        # Read the file line by line
+        for line in in_file:
+            tweet, label = line.strip().split("\t")
+            tweets.append(tweet)
+            labels.append(label)
+        
+    return tweets, labels
 
 
 def compute_metrics(eval_pred):
@@ -116,6 +107,21 @@ def print_results(metrics):
     print(f'Micro F1: {f1_micro}')
     print(f'Macro F1: {f1_macro}')
 
+
+def save_confusion_matrix(cm, le, filename):
+    """Plot and save confusion matrix with the labels using matplotlib."""
+
+    # Plot confusion matrix
+    plt.figure(figsize=(10, 8))
+    # Get the label names to show in the matrix
+    labels = le.classes_
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
+    disp.plot(cmap='Blues', xticks_rotation='vertical', values_format='d')
+    plt.tight_layout()
+    # Save the figure
+    plt.savefig(filename)
+    plt.close()
+    
 
 def prepare_data(args, tokenizer):
     '''Tokenize and build datasets + label encoder'''
