@@ -81,33 +81,7 @@ python3 ./lm_model.py \
     --early_stopping_patience $patience \
     --metric_for_best_model 'eval_f1_macro'
 
-# echo "Job ${SLURM_ARRAY_TASK_ID}: Executing..."
-# echo "$COMMAND"
-
-# NEW: Execute the command and capture its entire output
-# RUN_OUTPUT=$($COMMAND)
-# RUN_OUTPUT=$($COMMAND 2>&1)
-
-# NEW: Extract the specific metrics line from the output
-# FINAL_METRICS=$(echo "$RUN_OUTPUT" | grep "FINAL_METRICS")
-
-# NEW: Use a lock to safely append the command and results to the log file
-# This prevents different jobs from writing at the same time and corrupting the file
-# while ! mkdir "$LOG_FILE.lock" 2>/dev/null; do
-#     sleep 1
-# done
-
-# {
-#     echo "-----------------------------------------------------------"
-#     echo "Job ID: ${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}"
-#     echo "Finished at: $(date)"
-#     echo "Command:"
-#     echo "$COMMAND"
-#     echo "Metrics: $FINAL_METRICS"
-#     echo ""
-# } >> "$LOG_FILE"
-
-# rmdir "$LOG_FILE.lock"
 
 echo "Done."
+
 deactivate

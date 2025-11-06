@@ -5,6 +5,7 @@ import json
 import random as python_random
 
 import numpy as np
+import fasttext
 import tensorflow as tf
 from keras.initializers import Constant
 from keras.layers import Bidirectional
@@ -28,20 +29,20 @@ def create_arg_parser():
     """Creates the argument parser for command line arguments."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-i', '--train_file', default='train.txt', type=str,
+        '-i', '--train_file', default='../data/raw/train.tsv', type=str,
         help='Input file to learn from (default train.txt)',
     )
     parser.add_argument(
-        '-d', '--dev_file', type=str, default='dev.txt',
+        '-d', '--dev_file', type=str, default='../data/raw/dev.tsv',
         help='Separate dev set to read in (default dev.txt)',
     )
     parser.add_argument(
-        '-t', '--test_file', type=str,
+        '-t', '--test_file', type=str, default='../data/raw/test.tsv',
         help='If added, use trained model to predict on test set',
     )
     parser.add_argument(
-        '-e', '--embeddings', default='glove_reviews.json', type=str,
-        help='Embedding file we are using (default glove_reviews.json)',
+        '-e', '--embeddings', default='fasttext.vec', type=str,
+        help='Embedding file we are using (default fasttext.vec)',
     )
 
     # Standard parameters
