@@ -9,7 +9,7 @@
 module load CUDA/11.7.0
 module load Boost/1.79.0-GCC-11.3.0
 
-source $HOME/venvs/venv_lfd_final/bin/activate
+source $HOME/venvs/venv_lfd_final_lm/bin/activate
 
 echo "Job starting"
 
