@@ -4,7 +4,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --mem=8G
 #SBATCH --array=0-3
-#SBATCH --output=/output/raw/slurm_logs/slurm-%A_%a.out
+#SBATCH --output=output/raw/slurm_logs/slurm-%A_%a.out
 
 module load CUDA/11.7.0
 module load Boost/1.79.0-GCC-11.3.0
