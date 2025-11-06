@@ -57,9 +57,9 @@ def create_arg_parser():
     parser = argparse.ArgumentParser()
 
     # Arguments for input files
-    parser.add_argument('--train_file', default='./data/raw/train.tsv', type=str)
-    parser.add_argument('--dev_file', default='./data/raw/dev.tsv', type=str)
-    parser.add_argument('--test_file', default='./data/raw/test.tsv', type=str)
+    parser.add_argument('--train_file', default='../data/raw/train.tsv', type=str)
+    parser.add_argument('--dev_file', default='../data/raw/dev.tsv', type=str)
+    parser.add_argument('--test_file', default='../data/raw/test.tsv', type=str)
 
     # Argumen to set the  random seed
     parser.add_argument('--seed', default=42, type=int)
