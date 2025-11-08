@@ -174,7 +174,7 @@ def main():
         learning_rate=args.learning_rate,
         weight_decay=args.weight_decay,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
-        evaluation_strategy="epoch",
+        eval_strategy="epoch",
 
         save_strategy="epoch",
         logging_steps=args.logging_steps,
