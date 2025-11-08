@@ -174,9 +174,9 @@ def main():
         learning_rate=args.learning_rate,
         weight_decay=args.weight_decay,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
-        evaluation_strategy=args.eval_strategy,
+        # evaluation_strategy=args.eval_strategy,
 
-        save_strategy=args.eval_strategy,
+        # save_strategy=args.eval_strategy,
         logging_steps=args.logging_steps,
         warmup_ratio=args.warmup_ratio if args.warmup_steps == 0 else 0.0,
         warmup_steps=args.warmup_steps,
