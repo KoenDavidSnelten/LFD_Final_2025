@@ -5,7 +5,6 @@ import json
 import random as python_random
 
 import numpy as np
-import fasttext
 import tensorflow as tf
 from keras.initializers import Constant
 from keras.layers import Bidirectional
@@ -41,8 +40,8 @@ def create_arg_parser():
         help='If added, use trained model to predict on test set',
     )
     parser.add_argument(
-        '-e', '--embeddings', default='fasttext.vec', type=str,
-        help='Embedding file we are using (default fasttext.vec)',
+        '-e', '--embeddings', default='glove.vec', type=str,
+        help='Embedding file we are using (default glove.vec)',
     )
 
     # Standard parameters
@@ -99,17 +98,22 @@ def create_arg_parser():
     return args
 
 
-def read_corpus(corpus_file):
-    '''Read in review data set and returns docs and labels'''
-    documents = []
+def read_corpus(file):
+    '''Reads the given corpus file and returns the documents and labels'''
+
+    # Variables to store the documents and labels
+    tweets = []
     labels = []
-    with open(corpus_file, encoding='utf-8') as f:
-        for line in f:
-            tokens = line.strip()
-            documents.append(' '.join(tokens.split()[3:]).strip())
-            # 6-class problem: books, camera, dvd, health, music, software
-            labels.append(tokens.split()[0])
-    return documents, labels
+
+    # Open the file
+    with open(file, encoding='utf-8') as in_file:
+        # Read the file line by line
+        for line in in_file:
+            tweet, label = line.strip().split("\t")
+            tweets.append(tweet)
+            labels.append(label)
+        
+    return tweets, labels
 
 
 def read_embeddings(embeddings_file):
