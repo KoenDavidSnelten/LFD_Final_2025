@@ -185,7 +185,7 @@ def main():
 
         load_best_model_at_end=args.load_best_model_at_end,
         metric_for_best_model=args.metric_for_best_model,
-        save_total_limit=2,
+        save_total_limit=1,
     )
 
     # Implement early stopping
