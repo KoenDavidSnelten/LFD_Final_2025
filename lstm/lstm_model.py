@@ -236,21 +236,17 @@ def train_model(model, X_train, Y_train, X_dev, Y_dev, args):
 
 
 def test_set_predict(model, X_test, Y_test, ident):
-    '''Do predictions and measure accuracy on our own test set (that we split off train)'''
-    # Get predictions using the trained model
-    Y_pred = model.predict(X_test)
+    '''Make predictions and evaluate on a given dataset'''
+    Y_pred_probs = model.predict(X_test)
+    Y_pred = (Y_pred_probs > 0.5).astype("int32")
 
-    # Finally, convert to numerical labels to get scores with sklearn
-    Y_pred = np.argmax(Y_pred, axis=1)
-
-    # If you have gold data, you can calculate accuracy
-    Y_test = np.argmax(Y_test, axis=1)
-    print(
-        'Accuracy on own {1} set: {0}'.format(
-            round(accuracy_score(Y_test, Y_pred), 3), ident,
-        ),
-    )
-    print(classification_report(Y_test, Y_pred))
+    print(f'\n--- Evaluation on {ident} set ---')
+    print(f'Accuracy: {accuracy_score(Y_test, Y_pred):.3f}')
+    print(f'F1 Score (OFF): {f1_score(Y_test, Y_pred, pos_label=1):.3f}')
+    print(f'Macro F1 Score: {f1_score(Y_test, Y_pred, average="macro"):.3f}')
+    print('Classification Report:')
+    print(classification_report(Y_test, Y_pred, target_names=['NOT', 'OFF'], zero_division=0))
+    print('--------------------------')
 
 
 def main():
