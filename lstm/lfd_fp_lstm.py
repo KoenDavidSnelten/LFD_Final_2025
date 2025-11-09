@@ -39,7 +39,7 @@ def create_arg_parser():
         help='If added, use trained model to predict on test set',
     )
     parser.add_argument(
-        '-e', '--embeddings', default='glove.twitter.27B.100d.txt', type=str,
+        '-e', '--embeddings', default='glove.txt', type=str,
         help='Embedding file we are using (default glove.twitter.27B.100d.txt)',
     )
 
