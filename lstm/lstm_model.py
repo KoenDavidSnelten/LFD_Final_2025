@@ -118,8 +118,15 @@ def read_corpus(file):
 
 def read_embeddings(embeddings_file):
     '''Read in word embeddings from file and save as numpy array'''
-    embeddings = json.load(open(embeddings_file, 'r'))
-    return {word: np.array(embeddings[word]) for word in embeddings}
+    embeddings_dict = {}
+    with open(embeddings_file, 'r') as f:
+        for line in f:
+            values = line.split()
+            word = values[0]
+            vector = np.asarray(values[1:], "float32")
+            embeddings_dict[word] = vector
+    
+    return embeddings_dict
 
 
 def get_emb_matrix(voc, emb):
