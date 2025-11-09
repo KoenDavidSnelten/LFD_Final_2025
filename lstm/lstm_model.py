@@ -13,7 +13,7 @@ from keras.layers import Embedding
 from keras.layers import LSTM
 from keras.models import Sequential
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, f1_score
 from sklearn.preprocessing import LabelBinarizer
 from tensorflow.keras.layers import TextVectorization
 from tensorflow.keras.optimizers import SGD
