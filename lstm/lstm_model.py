@@ -123,8 +123,15 @@ def read_embeddings(embeddings_file):
         for line in f:
             values = line.split()
             word = values[0]
-            vector = np.asarray(values[1:], dtype="float32")
-            embeddings_dict[word] = vector
+            try:
+                # This is the line that was throwing the ValueError
+                vector = np.asarray(values[1:], dtype="float32")
+                embeddings_dict[word] = vector
+            except ValueError:
+                # Handle the case where a value in the vector is not a float (like '.')
+                # We skip this corrupted entry and print a warning
+                print(f"⚠️ Warning: Skipping word '{word}' due to non-numeric embedding value in line: {line.strip()}")
+                continue # Skip to the next line
     
     return embeddings_dict
 
