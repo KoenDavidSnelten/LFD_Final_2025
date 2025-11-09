@@ -27,15 +27,15 @@ def create_arg_parser():
     """Creates the argument parser for command line arguments."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-i', '--train_file', default='train.tsv', type=str,
+        '-i', '--train_file', default='../data/raw/train.tsv', type=str,
         help='Input file to learn from (default train.tsv)',
     )
     parser.add_argument(
-        '-d', '--dev_file', type=str, default='dev.tsv',
+        '-d', '--dev_file', type=str, default='../data/raw/dev.tsv',
         help='Separate dev set to read in (default dev.tsv)',
     )
     parser.add_argument(
-        '-t', '--test_file', type=str,
+        '-t', '--test_file', type=str, default='../data/raw/test.tsv',
         help='If added, use trained model to predict on test set',
     )
     parser.add_argument(
