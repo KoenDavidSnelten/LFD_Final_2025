@@ -50,8 +50,8 @@ def create_arg_parser():
         help='Learning rate for optimizer (default 0.01)',
     )
     parser.add_argument(
-        '--loss_function', type=str, default='categorical_crossentropy',
-        help='Loss function for training (default categorical_crossentropy)',
+        '--loss_function', type=str, default='binary_crossentropy',
+        help='Loss function for training (default binary_crossentropy)',
     )
     parser.add_argument(
         '--optimizer', type=str, default='SGD',
