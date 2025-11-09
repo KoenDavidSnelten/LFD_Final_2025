@@ -201,15 +201,16 @@ def create_model(Y_train, emb_matrix, args):
                 ),
             )
 
-    model.add(
-        Dense(
-            input_dim=embedding_dim,
-            units=num_labels,
-            activation='softmax',
-        ),
-    )
+    # model.add(
+    #     Dense(
+    #         input_dim=embedding_dim,
+    #         units=num_labels,
+    #         activation='softmax',
+    #     ),
+    # )
 
     # Compile model using provided arguments
+    model.add(Dense(units=1, activation='sigmoid'))
     model.compile(
         loss=args.loss_function,
         optimizer=optim, metrics=['accuracy'],
