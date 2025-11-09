@@ -28,7 +28,7 @@ def remove_html(text):
     """Decode HTML entities (&amp; → &, etc.)."""
     return html.unescape(text)
 
-def open_file(filename):dd
+def open_file(filename):
     """Open dataset file with text and label separated by a tab."""
     with open(filename, encoding="utf-8") as f:
         lines = [line.strip().split("\t") for line in f if "\t" in line]
