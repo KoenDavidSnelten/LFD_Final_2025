@@ -9,7 +9,7 @@ import numpy as np
 import tensorflow as tf
 
 # Disable XLA/JIT compilation to avoid environment issues on the cluster
-# tf.config.optimizer.set_jit(False)
+tf.config.optimizer.set_jit(False)
 
 from keras.initializers import Constant
 from keras.layers import Bidirectional, Dense, Embedding, LSTM
