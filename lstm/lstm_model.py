@@ -272,11 +272,10 @@ def main():
     voc = vectorizer.get_vocabulary()
     emb_matrix = get_emb_matrix(voc, embeddings)
 
-    # Transform string labels to one-hot encodings
-    encoder = LabelBinarizer()
-    # Use encoder.classes_ to find mapping back
-    Y_train_bin = encoder.fit_transform(Y_train)
-    Y_dev_bin = encoder.fit_transform(Y_dev)
+    
+    # Use encode classes
+    Y_train_bin = np.array([1 if label == 'OFF' else 0 for label in Y_train])
+    Y_dev_bin = np.array([1 if label == 'OFF' else 0 for label in Y_dev])
 
     # Create model
     model = create_model(Y_train, emb_matrix, args)
@@ -298,7 +297,7 @@ def main():
     if args.test_file:
         # Read in test set and vectorize
         X_test, Y_test = read_corpus(args.test_file)
-        Y_test_bin = encoder.fit_transform(Y_test)
+        Y_test_bin = np.array([1 if label == 'OFF' else 0 for label in Y_test])
         X_test_vect = vectorizer(np.array([[s] for s in X_test])).numpy()
         # Finally do the predictions
         test_set_predict(model, X_test_vect, Y_test_bin, 'test')
