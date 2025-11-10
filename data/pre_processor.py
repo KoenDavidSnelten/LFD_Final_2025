@@ -1,16 +1,25 @@
 import re
 import html
-import emoji
+# import emoji
 import argparse
 import os
+import contractions
 
-def emoji_to_text(text):
-    """Convert emojis to text (e.g. 😀 → :grinning_face:)."""
-    return emoji.demojize(text, delimiters=(" ", " "))
+# def emoji_to_text(text):
+#     """Convert emojis to text (e.g. 😀 → :grinning_face:)."""
+#     return emoji.demojize(text, delimiters=(" ", " "))
 
 def lower_case(text):
     """Convert text to lowercase."""
     return text.lower()
+
+def remove_contractions(text):
+    """Remove contractions."""
+    expanded_words = []    
+    for word in text.split():
+        # using contractions.fix to expand the shortened words
+        expanded_words.append(contractions.fix(word))   
+    return ' '.join(expanded_words).lower()
 
 def remove_user(text):
     """Remove @USER mentions."""
@@ -48,6 +57,8 @@ def preprocess_pipeline(text, args):
         text = remove_hashtag(text)
     if args.remove_html:
         text = remove_html(text)
+    if args.remove_contractions:
+        text = remove_contractions(text)
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
@@ -60,6 +71,7 @@ def main():
     parser.add_argument("--remove_url", action="store_true", help="Remove URLs")
     parser.add_argument("--remove_hashtag", action="store_true", help="Remove hashtags")
     parser.add_argument("--remove_html", action="store_true", help="Decode HTML entities")
+    parser.add_argument("--remove_contractions", action="store_true", help="remove_contractions")
     args = parser.parse_args()
 
     files = ["train.tsv", "dev.tsv", "test.tsv"]
