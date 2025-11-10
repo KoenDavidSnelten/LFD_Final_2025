@@ -264,8 +264,6 @@ def main():
     X_train, Y_train = read_corpus(args.train_file)
     X_dev, Y_dev = read_corpus(args.dev_file)
     embeddings = read_embeddings(args.embeddings)
-    print(f"Train samples: {len(X_train_vect)} | Dev samples: {len(X_dev_vect)}")
-    print(f"Train labels: {len(Y_train_bin)} | Dev labels: {len(Y_dev_bin)}")
     # Transform words to indices using a vectorizer
     vectorizer = TextVectorization(standardize=None, output_sequence_length=50)
 
@@ -292,6 +290,9 @@ def main():
     X_train_vect = vectorizer(np.array(X_train)).numpy()
     X_dev_vect = vectorizer(np.array(X_dev)).numpy()
 
+    print(f"Train samples: {len(X_train_vect)} | Dev samples: {len(X_dev_vect)}")
+    print(f"Train labels: {len(Y_train_bin)} | Dev labels: {len(Y_dev_bin)}")
+    
     # Train the model
     model = train_model(
         model, X_train_vect, Y_train_bin,
