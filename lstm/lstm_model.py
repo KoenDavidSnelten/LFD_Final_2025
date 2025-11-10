@@ -231,7 +231,7 @@ def train_model(model, X_train, Y_train, X_dev, Y_dev, args):
         verbose=args.verbose,
         epochs=args.epochs,
         batch_size=args.batch_size,
-        callbacks=[callback],
+        # callbacks=[callback],
         validation_data=(X_dev, Y_dev),
     )
 
@@ -264,7 +264,8 @@ def main():
     X_train, Y_train = read_corpus(args.train_file)
     X_dev, Y_dev = read_corpus(args.dev_file)
     embeddings = read_embeddings(args.embeddings)
-
+    print(f"Train samples: {len(X_train_vect)} | Dev samples: {len(X_dev_vect)}")
+    print(f"Train labels: {len(Y_train_bin)} | Dev labels: {len(Y_dev_bin)}")
     # Transform words to indices using a vectorizer
     vectorizer = TextVectorization(standardize=None, output_sequence_length=50)
 
