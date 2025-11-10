@@ -224,7 +224,7 @@ def create_model(Y_train, emb_matrix, args):
 
 def train_model(model, X_train, Y_train, X_dev, Y_dev, args):
     '''Train the model using command line arguments'''
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
+    # callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
 
     model.fit(
         X_train, Y_train,
