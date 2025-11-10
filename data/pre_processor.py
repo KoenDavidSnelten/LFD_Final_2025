@@ -1,13 +1,13 @@
 import re
 import html
-# import emoji
+import emoji
 import argparse
 import os
 import contractions
 
-# def emoji_to_text(text):
-#     """Convert emojis to text (e.g. 😀 → :grinning_face:)."""
-#     return emoji.demojize(text, delimiters=(" ", " "))
+def emoji_to_text(text):
+    """Convert emojis to text (e.g. 😀 → :grinning_face:)."""
+    return emoji.demojize(text, delimiters=(" ", " "))
 
 def lower_case(text):
     """Convert text to lowercase."""
@@ -37,6 +37,35 @@ def remove_html(text):
     """Decode HTML entities (&amp; → &, etc.)."""
     return html.unescape(text)
 
+def remove_swear(text):
+    # A comprehensive list of swear words found in your provided text snippets
+    swear_words = [
+        r"shit", r"fuck", r"bitch", r"bullshit", r"damn", r"cuck", 
+        r"fricking", r"fucking", r"dumbass", r"pussy", r"sucks", 
+        r"asshole", r"arsehole", r"cunt", r"dick", r"prick", r"bastard", 
+        r"wanker", r"tosser", r"bollocks", r"motherfucker", r"tits", r"twat", 
+        r"ass", r"arse", r"whore", r"slag", r"slut"
+    ]
+    
+    censored_text = text
+
+    for word in swear_words:
+        # Create the replacement string (e.g., '****') matching the length of the word
+        # Note: We use a static replacement of '****' here for simplicity, 
+        # but a full implementation would dynamically calculate length.
+        replacement = '****'
+        
+        # Build the regex pattern:
+        # r'\b' ensures a word boundary (prevents censoring in words like 'shitake')
+        # re.IGNORECASE makes the match case-insensitive (e.g., matches "ShIt" or "SHIT")
+        # We use a pattern that finds the whole word 'word' surrounded by boundaries
+        pattern = re.compile(rf"\b{word}\b", re.IGNORECASE)
+        
+        # Replace all occurrences
+        censored_text = pattern.sub(replacement, censored_text)
+
+    return censored_text
+
 def open_file(filename):
     """Open dataset file with text and label separated by a tab."""
     with open(filename, encoding="utf-8") as f:
@@ -59,6 +88,8 @@ def preprocess_pipeline(text, args):
         text = remove_html(text)
     if args.remove_contractions:
         text = remove_contractions(text)
+    if args.remove_swear:
+        text = remove_swear(text)
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
@@ -72,6 +103,7 @@ def main():
     parser.add_argument("--remove_hashtag", action="store_true", help="Remove hashtags")
     parser.add_argument("--remove_html", action="store_true", help="Decode HTML entities")
     parser.add_argument("--remove_contractions", action="store_true", help="remove_contractions")
+    parser.add_argument("--remove_swear", action="store_true", help="remove_swear")
     args = parser.parse_args()
 
     files = ["train.tsv", "dev.tsv", "test.tsv"]
