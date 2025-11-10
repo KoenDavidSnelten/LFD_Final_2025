@@ -284,11 +284,11 @@ def main():
     model = create_model(Y_train, emb_matrix, args)
 
     # Transform input to vectorized input
-    # X_train_vect = vectorizer(np.array([[s] for s in X_train])).numpy()
-    # X_dev_vect = vectorizer(np.array([[s] for s in X_dev])).numpy()
+    X_train_vect = vectorizer(np.array([[s] for s in X_train])).numpy()
+    X_dev_vect = vectorizer(np.array([[s] for s in X_dev])).numpy()
 
-    X_train_vect = vectorizer(np.array(X_train)).numpy()
-    X_dev_vect = vectorizer(np.array(X_dev)).numpy()
+    # X_train_vect = vectorizer(np.array(X_train)).numpy()
+    # X_dev_vect = vectorizer(np.array(X_dev)).numpy()
 
     print(f"Train samples: {len(X_train_vect)} | Dev samples: {len(X_dev_vect)}")
     print(f"Train labels: {len(Y_train_bin)} | Dev labels: {len(Y_dev_bin)}")
@@ -307,8 +307,8 @@ def main():
         # Read in test set and vectorize
         X_test, Y_test = read_corpus(args.test_file)
         Y_test_bin = np.array([1 if label == 'OFF' else 0 for label in Y_test])
-        # X_test_vect = vectorizer(np.array([[s] for s in X_test])).numpy()
-        X_test_vect = vectorizer(np.array(X_test)).numpy()
+        X_test_vect = vectorizer(np.array([[s] for s in X_test])).numpy()
+        # X_test_vect = vectorizer(np.array(X_test)).numpy()
 
         # Finally do the predictions
         test_set_predict(model, X_test_vect, Y_test_bin, 'test')
