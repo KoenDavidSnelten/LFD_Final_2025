@@ -257,6 +257,9 @@ def main():
     '''Main function to train and test neural network given cmd line arguments'''
     args = create_arg_parser()
 
+    # Force TensorFlow to use the CPU
+    tf.config.set_visible_devices([], 'GPU')
+
     # Read in the data and embeddings
     X_train, Y_train = read_corpus(args.train_file)
     X_dev, Y_dev = read_corpus(args.dev_file)
